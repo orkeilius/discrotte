@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "2444fada-cb26-4d30-9cdc-e39237065e74",
+		"name": "discrotte",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29627169"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/login?name=joe bidome&password=toto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "joe bidome"
+						},
+						{
+							"key": "password",
+							"value": "toto",
+							"description": "placeholder password"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/login?name=joe bidome&password=toto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "joe bidome"
+						},
+						{
+							"key": "password",
+							"value": "toto",
+							"description": "placeholder password"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login invalid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/login?name=mefggh dfhiohdh&password=thdfg",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "mefggh dfhiohdh"
+						},
+						{
+							"key": "password",
+							"value": "thdfg"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
