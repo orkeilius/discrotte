@@ -13,11 +13,10 @@ import jakarta.persistence.Table;
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "id", nullable = false)
-	private Long id;
-	 
+	@Column(name = "name", nullable = false)
 	public String name;
+	
+	@Column(name = "password", nullable = false)
 	private String password;
 	
 	private  User(String name,String password){
@@ -25,16 +24,10 @@ public class User {
 		this.password = password;
 	}
 	
-	
+    public User() {}
+    
 	public Boolean CheckPassword(String password) {
 		// placeholder for password validation with salt and security
 		return this.password.equals(password);
-	}
-	
-	
-	
-	public static User QueryUser(String name) {
-		// placeholder for query user from database
-		return new User(name,"toto");
 	}
 }

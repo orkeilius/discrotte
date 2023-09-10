@@ -1,5 +1,6 @@
 package com.discrotte.backend;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.discrotte.backend.model.User;
+import com.discrotte.backend.service.UserService;
 
 @RestController
 public class Controller {
@@ -20,10 +22,16 @@ public class Controller {
 	
 	@PostMapping("/login")
 	public String Login(@RequestParam String name,@RequestParam String password) {
-		User user = User.QueryUser(name);
-		userService.saveUser(user);
-		if (user.CheckPassword(password)) {
-			return user.name;
+		// userService.saveUser(User.QueryUser(name));
+		Optional<User> request  = userService.getUser(name);
+		if (request.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+		}
+		else {
+			User user = request.get();
+			if (user.CheckPassword(password)) {
+				return user.name;
+			}
 		}
 		throw new ResponseStatusException(
 		           HttpStatus.FORBIDDEN);
