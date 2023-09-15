@@ -1,8 +1,6 @@
 package com.discrotte.backend;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,24 +18,20 @@ public class Controller {
 	 private UserService userService;
 	
 	
-	@PostMapping("/login")
-	public String Login(@RequestParam String name,@RequestParam String password) {
-		// userService.saveUser(User.QueryUser(name));
-		Optional<User> request  = userService.getUser(name);
-		if (request.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-		}
-		else {
-			User user = request.get();
-			if (user.CheckPassword(password)) {
-				return user.name;
-			}
-		}
-		throw new ResponseStatusException(
-		           HttpStatus.FORBIDDEN);
+
+	@PostMapping("/createUSer")
+	public void CreateUser(@RequestParam String name,@RequestParam String password) {
+		userService.saveUser(new User(name, password));
 	}
-	@PostMapping("/logout")
-	public void Logout() {
+	@PostMapping("/ping")
+	public String Logout() {
+		userService.saveUser(new User("e","e"));
+		return "pong";
+		//placeholder for logout
+	}
+	@PostMapping("/message")
+	public String apiMessage() {
+		return "holla";
 		//placeholder for logout
 	}
 }

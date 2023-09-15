@@ -1,9 +1,9 @@
 package com.discrotte.backend.model;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -17,17 +17,17 @@ public class User {
 	public String name;
 	
 	@Column(name = "password", nullable = false)
-	private String password;
+	public String password;
 	
-	private  User(String name,String password){
+	public  User(String name,String password){
 		this.name = name;
-		this.password = password;
+		this.password = BCrypt.hashpw(password, BCrypt.gensalt()) ;
 	}
 	
     public User() {}
     
 	public Boolean CheckPassword(String password) {
 		// placeholder for password validation with salt and security
-		return this.password.equals(password);
+		return BCrypt.checkpw(password, this.password);
 	}
 }
