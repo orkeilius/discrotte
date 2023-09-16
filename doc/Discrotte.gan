@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="DISCROTTE" company="" webLink="http://" view-date="2023-09-10" view-index="0" gantt-divider-location="438" resource-divider-location="300" version="3.2.3247" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="DISCROTTE" company="" webLink="http://" view-date="2023-09-11" view-index="1" gantt-divider-location="348" resource-divider-location="300" version="3.2.3247" locale="fr_FR">
     <description/>
     <view zooming-state="default:0" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="437" order="0"/>
+        <field id="tpd3" name="Nom" width="311" order="0"/>
+        <field id="tpd6" name="Durée" width="36" order="1"/>
         <option id="filter.completedTasks" value="false"/>
         <timeline>
-            <![CDATA[0]]>
+            <![CDATA[3,0]]>
         </timeline>
         <option id="color.recent">
-            <![CDATA[#ccccff #ccffcc #ccffff #990099 #ff6666 #ff9999 #009999 #00cc66 #ffcccc #000000]]>
+            <![CDATA[#ccffcc #999999 #cccccc #ccffff #ccccff #990099 #ff6666 #ff9999 #009999 #00cc66]]>
         </option>
     </view>
     <view id="resource-table">
-        <field id="0" name="Nom" width="210" order="0"/>
-        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+        <field id="0" name="Nom" width="199" order="0"/>
+        <field id="1" name="Rôle par défaut" width="82" order="1"/>
     </view>
     <!-- -->
     <calendars base-id="fr">
@@ -48,7 +49,7 @@
         <date year="" month="12" date="25" type="HOLIDAY">
             <![CDATA[Jour de Noël]]>
         </date>
-        <date year="" month="9" date="15" type="WORKING_DAY" color="#ff6666">
+        <date year="" month="9" date="15" type="WORKING_DAY" color="#999999">
             <![CDATA[Compte Rendu]]>
         </date>
         <date year="" month="9" date="22" type="WORKING_DAY" color="#ff6666">
@@ -170,7 +171,7 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="MESSAGERIE DISCROTTE" color="#990099" meeting="false" start="2023-09-08" duration="20" complete="26" thirdDate="2023-09-15" thirdDate-constraint="0" priority="4" expand="true">
+        <task id="0" name="MESSAGERIE DISCROTTE" color="#990099" meeting="false" start="2023-09-08" duration="22" complete="27" thirdDate="2023-09-15" thirdDate-constraint="0" priority="4" expand="true">
             <notes>
                 <![CDATA[Réalisation d'une web application de messagerie
 ]]>
@@ -178,40 +179,57 @@
             <task id="5" name="Définition de l'étude" color="#ccccff" meeting="false" start="2023-09-08" duration="1" complete="100" thirdDate="2023-09-03" thirdDate-constraint="0" expand="true">
                 <depend id="6" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="6" name="Recherches d'informations" color="#ccccff" meeting="false" start="2023-09-09" duration="1" complete="100" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true">
+            <task id="6" name="Recherches d'informations" color="#ccccff" meeting="false" start="2023-09-09" duration="3" complete="100" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true">
                 <depend id="7" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="7" name="Réalisations des schémas, documents et planning" color="#ccccff" meeting="false" start="2023-09-10" duration="3" complete="100" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true">
-                <depend id="2" type="2" difference="0" hardness="Strong"/>
-                <depend id="4" type="2" difference="0" hardness="Strong"/>
-                <depend id="9" type="2" difference="0" hardness="Strong"/>
+            <task id="7" name="Réalisations des schémas, documents et planning" color="#ccccff" meeting="false" start="2023-09-12" duration="2" complete="100" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true">
+                <depend id="15" type="2" difference="0" hardness="Strong"/>
+                <depend id="16" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="1" name="BACK-END" color="#00cc66" meeting="false" start="2023-09-10" duration="18" complete="19" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
+            <task id="1" name="BACK-END" color="#00cc66" meeting="false" start="2023-09-14" duration="13" complete="15" thirdDate="2023-09-13" thirdDate-constraint="1" expand="true">
                 <depend id="13" type="2" difference="0" hardness="Strong"/>
-                <task id="2" name="Création Base de donnée et de la connexion" color="#ccffcc" meeting="false" start="2023-09-13" duration="1" complete="100" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
+                <task id="16" name="Mise en place de Spring Boot et des outils" color="#ccffcc" meeting="false" start="2023-09-14" duration="1" complete="100" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true">
+                    <depend id="2" type="2" difference="0" hardness="Strong"/>
+                    <depend id="9" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="2" name="Création Base de donnée et de la connexion" color="#ccffcc" meeting="false" start="2023-09-15" duration="1" complete="100" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
                     <depend id="8" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="8" name="Création de la classe utilisateur" color="#ccffcc" meeting="false" start="2023-09-14" duration="4" complete="24" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true">
+                <task id="9" name="Creation de l'API" color="#ccffcc" meeting="false" start="2023-09-15" duration="5" complete="14" thirdDate="2023-09-13" thirdDate-constraint="0" expand="true">
                     <depend id="12" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="9" name="Creation de l'API" color="#ccffcc" meeting="false" start="2023-09-13" duration="5" complete="14" thirdDate="2023-09-13" thirdDate-constraint="0" expand="true">
+                <task id="8" name="Création de la classe utilisateur et de ses dépendances" color="#ccffcc" meeting="false" start="2023-09-16" duration="4" complete="24" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true">
+                    <depend id="11" type="2" difference="0" hardness="Strong"/>
                     <depend id="12" type="2" difference="0" hardness="Strong"/>
+                    <depend id="14" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="11" name="Mise en place de Spring boot Security" color="#ccffcc" meeting="false" start="2023-09-22" duration="3" complete="23" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true">
+                <task id="14" name="Création du code pour la communication" color="#ccffcc" meeting="false" start="2023-09-20" duration="4" complete="0" thirdDate="2023-09-15" thirdDate-constraint="0" expand="true">
+                    <depend id="17" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="11" name="Mise en place de Spring boot Security" color="#ccffcc" meeting="false" start="2023-09-20" duration="2" complete="15" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true">
                     <depend id="12" type="2" difference="0" hardness="Strong"/>
+                    <depend id="17" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="12" name="Réalisation des tests Unitaires" color="#ccffcc" meeting="false" start="2023-09-25" duration="3" complete="0" thirdDate="2023-09-18" thirdDate-constraint="0" expand="true"/>
-                <task id="14" name="Création du code de la messagerie" meeting="false" start="2023-09-10" duration="1" complete="0" expand="true"/>
+                <task id="17" name="Sécurisation des fichiers et de la communications avec SBS" color="#ccffcc" meeting="false" start="2023-09-24" duration="3" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+                    <notes>
+                        <![CDATA[SBS = Spring Boot Security
+]]>
+                    </notes>
+                </task>
+                <task id="12" name="Réalisation des tests Unitaires" color="#ccffcc" meeting="false" start="2023-09-22" duration="5" complete="0" thirdDate="2023-09-18" thirdDate-constraint="0" expand="true"/>
             </task>
-            <task id="3" name="FRONT-END" color="#009999" meeting="false" start="2023-09-13" duration="15" complete="10" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
+            <task id="3" name="FRONT-END" color="#009999" meeting="false" start="2023-09-14" duration="14" complete="20" thirdDate="2023-09-13" thirdDate-constraint="1" expand="true">
                 <depend id="13" type="2" difference="0" hardness="Strong"/>
-                <task id="4" name="Création de la vue de connexion" color="#ccffff" meeting="false" start="2023-09-13" duration="3" complete="51" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
+                <task id="15" name="Mise en place de REACT et des outils" color="#ccffff" meeting="false" start="2023-09-14" duration="1" complete="100" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true">
+                    <depend id="4" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="4" name="Création de la vue de connexion" color="#ccffff" meeting="false" start="2023-09-15" duration="4" complete="45" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
                     <depend id="10" type="2" difference="0" hardness="Strong"/>
                 </task>
-                <task id="10" name="Creation de la vue messagerie" color="#ccffff" meeting="false" start="2023-09-16" duration="12" complete="0" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true"/>
+                <task id="10" name="Creation de la vue messagerie" color="#ccffff" meeting="false" start="2023-09-19" duration="9" complete="0" thirdDate="2023-09-14" thirdDate-constraint="0" expand="true"/>
             </task>
+            <task id="13" name="Synthèse et correctifs" color="#ccccff" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2023-09-28" duration="2" complete="0" thirdDate="2023-09-28" thirdDate-constraint="1" expand="true"/>
         </task>
-        <task id="13" name="Synthèse" color="#ccccff" meeting="false" start="2023-09-28" duration="2" complete="0" thirdDate="2023-09-28" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Matthieu DE OLIVEIRA MARTIN" function="Default:1" contacts="" phone=""/>
@@ -219,21 +237,40 @@
         <resource id="4" name="Nicolas PRINCIPALLI" function="SoftwareDevelopment:2" contacts="" phone=""/>
     </resources>
     <allocations>
-        <allocation task-id="0" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
         <allocation task-id="2" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="5" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="1" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="7" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="0" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="16" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="13" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="9" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="14" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="11" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
         <allocation task-id="2" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
         <allocation task-id="5" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
-        <allocation task-id="1" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
-        <allocation task-id="0" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="16" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="13" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="17" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="9" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="8" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="14" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="12" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="0" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
         <allocation task-id="5" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
         <allocation task-id="7" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
-        <allocation task-id="3" resource-id="4" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
         <allocation task-id="4" resource-id="4" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="4" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="13" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="4" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="4" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
