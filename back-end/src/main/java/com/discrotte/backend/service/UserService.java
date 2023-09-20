@@ -1,9 +1,10 @@
 package com.discrotte.backend.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.discrotte.backend.model.User;
 import com.discrotte.backend.repository.UserRepository;
@@ -17,8 +18,12 @@ public class UserService {
     private UserRepository UserRepository;
 
     public Optional<User> getUser(final String name) {
-       return UserRepository.findByName(name);
-        
+       return UserRepository.findByName(name);   
+    }
+    
+    public Optional<User> getCurrentUser() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return this.getUser(authentication.getName());
     }
 
     public Iterable<User> getUsers() {

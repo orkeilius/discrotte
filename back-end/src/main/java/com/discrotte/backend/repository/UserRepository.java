@@ -11,4 +11,5 @@ import com.discrotte.backend.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByName(String name);
+	
 }

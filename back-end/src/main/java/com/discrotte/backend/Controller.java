@@ -1,43 +1,90 @@
 package com.discrotte.backend;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.discrotte.backend.model.User;
+import com.discrotte.backend.model.Message;
+import com.discrotte.backend.service.MessageService;
 import com.discrotte.backend.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173",allowCredentials = "true")
 public class Controller {
 	
 	 @Autowired
 	 private UserService userService;
+	 
+	 @Autowired
+	 private MessageService messageService;
+	 
+	 ObjectMapper mapper = new ObjectMapper();
+	 
+	 @PostMapping("/getUser")
+	 public HashMap<String, String> getUser(@RequestParam String username) {
+		 Optional<User> request = userService.getUser(username);
+		 if (request.isEmpty()) {
+			 throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Unknown user");
+		 }
+		 HashMap<String, String> user = new HashMap<>();
+		 
+		 user.put("name", request.get().getName());
+		 user.put("role", "USER");
+		 	
+		 return user;
+		}
 	
-	
+	@PostMapping("/createUser")
+	public void CreateUser(@RequestParam String name,@RequestParam String password) {
+		userService.saveUser(new User(name, password));
+	}
 	@PostMapping("/login")
-	public String Login(@RequestParam String name,@RequestParam String password) {
-		// userService.saveUser(User.QueryUser(name));
-		Optional<User> request  = userService.getUser(name);
-		if (request.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+	public Void Login() {
+		return null;
+	}
+	
+	@PostMapping("/message/send")
+	public void sendMessage(@RequestBody String text) {
+		Optional<User> author = userService.getCurrentUser();
+		if (author.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_MODIFIED,"Unknown user");
+		}
+		messageService.saveMessage(new Message(author.get(), text));
+	}
+	
+	@PostMapping(path = "/message/getOld")
+	public String getOldMessage(@RequestBody String time) {
+		Date date = new Date( Long.parseLong(time));
+		Optional<Message> request =  messageService.getOldMessage(date);
+
+		if (request.isPresent()) {
+			return request.get().getJsonString();
 		}
 		else {
-			User user = request.get();
-			if (user.CheckPassword(password)) {
-				return user.name;
-			}
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		}
-		throw new ResponseStatusException(
-		           HttpStatus.FORBIDDEN);
 	}
-	@PostMapping("/logout")
-	public void Logout() {
-		//placeholder for logout
+	
+	@PostMapping("/message/getNew")
+	public String getNewMessage(@RequestBody String time) {
+		Date date = new Date( Long.parseLong(time));
+		Optional<Message> request =  messageService.getOldMessage(date);
+
+		if (request.isPresent()) {
+			return request.get().getJsonString();
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+		}
 	}
 }
