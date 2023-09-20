@@ -40,6 +40,7 @@ public class User {
 	public User(String name,String password){
 		this.name = name;
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt()) ;
+		this.role = "USER";
 	}
 	
     public User() {}
