@@ -33,6 +33,7 @@ public class WebSecurityConfig {
             	.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
             	.requestMatchers(new AntPathRequestMatcher("/ping")).permitAll()
             	.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+            	.requestMatchers(new AntPathRequestMatcher("/createUser**")).permitAll()
             	.anyRequest().authenticated()
             	
             );
