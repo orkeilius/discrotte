@@ -14,12 +14,30 @@ public class User {
 	
 	@Id
 	@Column(name = "name", nullable = false)
-	public String name;
+	private String name;
 	
 	@Column(name = "password", nullable = false)
-	public String password;
+	private String password;
 	
-	public  User(String name,String password){
+	@Column(name = "role", nullable = false)
+	private String role;
+	
+	
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public User(String name,String password){
 		this.name = name;
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt()) ;
 	}
