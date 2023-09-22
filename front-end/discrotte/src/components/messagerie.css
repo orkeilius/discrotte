@@ -1,0 +1,77 @@
+/* Chat message */
+.message {
+    border: 2px solid rgb(26, 29, 32);
+    background-color: rgb(13, 14, 16);
+    border-radius: 5px;
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    height: 100px;
+    position: relative;
+    display: flex;
+  }
+  .envoieMessage{
+    display: flex;
+    padding-top: 280px ;
+    position: relative;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 2em;
+    
+  }
+  #envoieMess{
+    width: 95%;
+    margin: auto;
+    height: 30px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    padding: 10px;
+  }
+  
+  /* Darker chat message */
+  .darker {
+    border-color: rgb(26, 29, 32);
+    background-color: rgb(13, 14, 16);
+  }
+  
+  /* Clear floats */
+  .message::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /* Style images */
+  .message img {
+    float: left;
+    width: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+    height: 60px;
+    object-fit: cover;
+  }
+  .nom{
+    padding-left: 80px;
+  }
+  
+ 
+  
+  /* Style time text */
+  .time {
+    right: 0;
+    bottom: 0;
+    color: #aaa;
+    position: absolute;
+    padding-right: 4px;
+    padding-bottom: 2px;
+  }
+  .image{
+    display: flex;
+    align-items: center;
+  }
+  .text{
+    color: grey;
+  }
+  
+ 
