@@ -1,15 +1,19 @@
-import "./Messagerie.css"
-export function Message(){
+import ProfileImage from "./ProfileImage.jsx"
+
+
+export function Message({text,author,time}){
     return(
-        <div className="message">
-          <div className="image">
-            <img src="/public/Quentin.png" alt="Avatar" />
-          </div>
+        <div className="flex text-white">
+        <ProfileImage username={author} />
           <div className="text">
-            <p>Lorem ipsum dolor sit amet.
+          <p>
+            <span className="font-semibold">{author}  </span>  
+            <span className="time">{time}</span><br/>
+            {text}
             </p>
           </div>
-          <span className="time">11:00</span>
         </div>
     )
 }
+
+// <div className="w-12 h-12 aspect-square bg-blue-600 rounded-full m-2 " />
