@@ -35,12 +35,11 @@ public class Message {
 	}
 	public Message() {}
 	
-	public String getJsonString() {
+	public JSONObject getJsonString() {
 		return new JSONObject()
 		.put("text",this.text)
 		.put("author",this.author.getName())
-		.put("date",this.date)
-		.toString();
+		.put("date",this.date.getTime());
 	}
 }
 

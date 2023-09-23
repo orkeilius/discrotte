@@ -14,7 +14,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 	
 	Optional<Message> findById(int id);
 	
-	Optional<Message> findFirstByDateLessThan(Date date);
+	List<Message> findFirst10ByDateLessThanOrderByDateDesc(Date date);
 	
-	Optional<Message> findFirstByDateGreaterThan(Date date);
+	List<Message> findFirst10ByDateGreaterThanOrderByDateAsc(Date date);
 }

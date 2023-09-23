@@ -1,6 +1,7 @@
 package com.discrotte.backend.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class MessageService {
        return MessageRepository.findById(id);   
     }
     
-    public Optional<Message> getOldMessage(final Date date) {
-    	return MessageRepository.findFirstByDateLessThan(date);   
+    public List<Message> getOldMessage(final Date date) {
+    	return MessageRepository.findFirst10ByDateLessThanOrderByDateDesc(date);   
     }
     
-    public Optional<Message> getNewMessage(final Date date) {
-    	return MessageRepository.findFirstByDateGreaterThan(date);   
+    public List<Message> getNewMessage(final Date date) {
+    	return MessageRepository.findFirst10ByDateGreaterThanOrderByDateAsc(date);   
     }
 
     public Iterable<Message> getMessage() {

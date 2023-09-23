@@ -2,6 +2,8 @@ package com.discrotte.backend;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.discrotte.backend.model.User;
@@ -31,7 +35,7 @@ public class Controller {
 	 ObjectMapper mapper = new ObjectMapper();
 	 
 	 @PostMapping("/getUser")
-	 public HashMap<String, String> getUser(@RequestParam String username) {
+	 public HashMap<String, String> getUser(@RequestBody String username) {
 		 Optional<User> request = userService.getUser(username);
 		 if (request.isEmpty()) {
 			 throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Unknown user");
@@ -65,26 +69,28 @@ public class Controller {
 	@PostMapping(path = "/message/getOld")
 	public String getOldMessage(@RequestBody String time) {
 		Date date = new Date( Long.parseLong(time));
-		Optional<Message> request =  messageService.getOldMessage(date);
-
-		if (request.isPresent()) {
-			return request.get().getJsonString();
+		List<Message> request =  messageService.getOldMessage(date);
+		
+		JSONArray out = new JSONArray();
+		for (Iterator iterator = request.iterator(); iterator.hasNext();) {
+			Message message = (Message) iterator.next();
+			out.put(message.getJsonString());
+			
 		}
-		else {
-			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-		}
+		return out.toString() ;
+		
 	}
 	
 	@PostMapping("/message/getNew")
 	public String getNewMessage(@RequestBody String time) {
 		Date date = new Date( Long.parseLong(time));
-		Optional<Message> request =  messageService.getOldMessage(date);
-
-		if (request.isPresent()) {
-			return request.get().getJsonString();
+		List<Message> request =  messageService.getNewMessage(date);
+		
+		JSONArray out = new JSONArray();
+		for (Iterator iterator = request.iterator(); iterator.hasNext();) {
+			Message message = (Message) iterator.next();
+			out.put(message.getJsonString());
 		}
-		else {
-			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-		}
+		return out.toString() ;
 	}
 }
