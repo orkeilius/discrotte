@@ -1,14 +1,17 @@
 import ProfileImage from "./ProfileImage.jsx"
 
 
-export function Message({text,author,time}){
+export function Message({ text, author, time }) {
+
+  let timeFormat = new Date(parseInt(time))
+    
     return(
         <div className="flex text-white">
         <ProfileImage username={author} />
           <div className="text">
           <p>
-            <span className="font-semibold">{author}  </span>  
-            <span className="time">{time}</span><br/>
+            <span className="font-semibold text-lg">{author}  </span>  
+            <span className="font-light text-xs">{timeFormat.toLocaleString("fr-FR")}</span><br/>
             {text}
             </p>
           </div>
