@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,21 +25,32 @@ import java.util.Arrays;
 @Configuration
 public class WebSecurityConfig {
 	
+	private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+    private final UserAuthenticationProvider userAuthenticationProvider;
+
+    public WebSecurityConfig(UserAuthenticationEntryPoint userAuthenticationEntryPoint,
+                          UserAuthenticationProvider userAuthenticationProvider) {
+        this.userAuthenticationEntryPoint = userAuthenticationEntryPoint;
+        this.userAuthenticationProvider = userAuthenticationProvider;
+    }
+	
+	
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    	http.csrf(csrf -> csrf.disable());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((authz) -> authz
-            	//.requestMatchers("/h2-console/**").permitAll()
-            	.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-            	.requestMatchers(new AntPathRequestMatcher("/message/**")).hasAuthority("USER")
-            	.requestMatchers(new AntPathRequestMatcher("/createUser**")).permitAll()
-            	.anyRequest().authenticated()
-            	
-            );
-            //.formLogin(withDefaults())  
-        http.httpBasic(withDefaults());
-		
+                //.exceptionHandling().authenticationEntryPoint(userAuthenticationEntryPoint)
+                //.and()
+                .addFilterBefore(new UsernamePasswordAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), UsernamePasswordAuthFilter.class)
+                //.addFilterBefore(new CorsFilter(userAuthenticationProvider), JwtAuthFilter.class)
+                .csrf(csrf -> csrf.disable())
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
+                .authorizeHttpRequests((requests) -> requests
+                		//.requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/signIn", "/signUp").permitAll()
+                        .anyRequest().authenticated())
+                ;
         return http.build();
     }
    
@@ -53,29 +65,29 @@ public class WebSecurityConfig {
 		return source;
 	}
     
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
+    //@Bean
+    //public UserDetailsService userDetailsService() {
+    //    return new CustomUserDetailsService();
+    //}
      
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    //@Bean
+    //public BCryptPasswordEncoder passwordEncoder() {
+    //    return new BCryptPasswordEncoder();
+    //}
      
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-         
-        return authProvider;
-    }
+    //@Bean
+    //public DaoAuthenticationProvider authenticationProvider() {
+    //    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    //    authProvider.setUserDetailsService(userDetailsService());
+    //    authProvider.setPasswordEncoder(passwordEncoder());
+    //     
+    //    return authProvider;
+    //}
  
     //@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
+    //protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    //    auth.authenticationProvider(authenticationProvider());
+    //}
     
 
 }

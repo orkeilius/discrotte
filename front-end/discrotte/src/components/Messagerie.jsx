@@ -8,7 +8,7 @@ let requestSetting = {
   headers: {
     "Authorization": 'Basic ' + btoa("e" + ":" + "e"),
     "mode": "cors",
-    "Access-Control-Allow-Origin": '*',
+    //"Access-Control-Allow-Origin": '*',
     "Content-Type": 'text/plain;charset=UTF-8',
     "X-Requested-With": "XMLHttpRequest",
   },
@@ -34,7 +34,7 @@ export function Messagerie() {
       time = message[0].date
     }
     for (let index = 0; index < nbMessage; index++) {
-      let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { ...requestSetting, body: time })
+      let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", {method: "POST", headers: appData.headers, body: time })
 
       let requestJSON = await response.json()
       newMessage.unshift(...requestJSON.reverse())
@@ -56,10 +56,9 @@ export function Messagerie() {
     else {
       time = message[message.length - 1].date
     }
-    let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getNew", { ...requestSetting, body: time })
+    let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getNew", {method: "POST", headers: appData.headers, body: time })
     let requestJSON = await response.json()
     setMessage((e) => { return [...e, ...requestJSON] })
-    console.log(scrollWarp.current)
     if (scrollWarp.current.scrollTop >= scrollWarp.current.scrollHeight -1000 ) {
         setTimeout(()=>{scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight)},0)
       }
@@ -72,7 +71,7 @@ export function Messagerie() {
       return
     }
 
-    await fetch(import.meta.env.VITE_BACKEND_URL + "/message/send", { ...requestSetting, body: event.target.value })
+    await fetch(import.meta.env.VITE_BACKEND_URL + "/message/send", {method: "POST", headers: appData.headers, body: event.target.value })
     event.target.value = ""
   }
 
@@ -84,7 +83,7 @@ export function Messagerie() {
       setTimeout(()=>{scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight)},0)
     }
 
-    if (appData.isLogged ) {
+    if (true) {
       loadMessage()
     }
   }, [appData.isLogged])

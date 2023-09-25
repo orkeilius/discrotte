@@ -8,7 +8,13 @@ function App() {
 
 
   const [appData, SetAppData] = useState({
-    isLogged : false
+    isLogged: false,
+    headers: {
+      "mode": "cors",
+      "Access-Control-Allow-Origin": '*',
+      "Content-Type": 'text/plain;charset=UTF-8',
+      "X-Requested-With": "XMLHttpRequest",
+    }
   }) 
 
   return (

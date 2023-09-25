@@ -22,6 +22,7 @@ public class User {
 	@Column(name = "role", nullable = false)
 	private String role;
 	
+	private String token;
 	
 	
 	
@@ -48,5 +49,13 @@ public class User {
 	public Boolean CheckPassword(String password) {
 		// placeholder for password validation with salt and security
 		return BCrypt.checkpw(password, this.password);
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
