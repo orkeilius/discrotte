@@ -31,21 +31,18 @@ public class WebSecurityConfig {
             .authorizeHttpRequests((authz) -> authz
             	//.requestMatchers("/h2-console/**").permitAll()
             	.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-            	.requestMatchers(new AntPathRequestMatcher("/ping")).permitAll()
-            	.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+            	.requestMatchers(new AntPathRequestMatcher("/message/**")).hasAuthority("USER")
             	.requestMatchers(new AntPathRequestMatcher("/createUser**")).permitAll()
             	.anyRequest().authenticated()
             	
             );
             //.formLogin(withDefaults())  
         http.httpBasic(withDefaults());
-		http.securityContext((securityContext) -> securityContext
-			.securityContextRepository(new RequestAttributeSecurityContextRepository())
-		);
+		
         return http.build();
     }
    
- 
+    
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();

@@ -21,10 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findByName(username);
          
         if (user.isEmpty()) {
-        	System.out.println("c'est non");
             throw new UsernameNotFoundException("Could not find user");
         }
-        System.out.println(user.get().getName());
         return new CustomUserDetails(user.get());
     }
 
