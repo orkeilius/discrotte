@@ -26,6 +26,7 @@ export function Sidebar() {
       return {
         ...e,
         "isLogged": true,
+        "jwt": responseBody.token, 
         "headers": { "Authorization": "Bearer " + responseBody.token, ...e.headers },
       }
     })

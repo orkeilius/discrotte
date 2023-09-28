@@ -64,32 +64,7 @@ public class WebSecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-    
-    //@Bean
-    //public UserDetailsService userDetailsService() {
-    //    return new CustomUserDetailsService();
-    //}
-     
-    //@Bean
-    //public BCryptPasswordEncoder passwordEncoder() {
-    //    return new BCryptPasswordEncoder();
-    //}
-     
-    //@Bean
-    //public DaoAuthenticationProvider authenticationProvider() {
-    //    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    //    authProvider.setUserDetailsService(userDetailsService());
-    //    authProvider.setPasswordEncoder(passwordEncoder());
-    //     
-    //    return authProvider;
-    //}
- 
-    //@Override
-    //protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    //    auth.authenticationProvider(authenticationProvider());
-    //}
-    
-
+   
 }
 
 
