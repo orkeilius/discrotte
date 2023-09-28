@@ -9,6 +9,7 @@ function App() {
 
   const [appData, SetAppData] = useState({
     isLogged: false,
+    jwt: "",
     headers: {
       "mode": "cors",
       "Access-Control-Allow-Origin": '*',

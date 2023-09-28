@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,9 +46,7 @@ public class Controller {
 
 	@PostMapping("/signIn")
 	public ResponseEntity<String> signIn(@AuthenticationPrincipal User user) {
-		System.out.println(user);
 		user.setToken(userAuthenticationProvider.createToken(user.getName()));
-		System.out.println("a");
 		return ResponseEntity.ok(new JSONObject().put("token", user.getToken()).toString());
 	}
 
@@ -110,4 +107,5 @@ public class Controller {
 		}
 		return out.toString();
 	}
+
 }

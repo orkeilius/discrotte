@@ -1,7 +1,9 @@
+window.global ||= window;
 import { useContext, useEffect, useRef, useState } from "react";
 import { AppDataContext } from "../App"
 import Discrotte from "../assets/discrotte.gif"
 import { Message } from "./Message";
+
 
 let requestSetting = {
   method: "POST",
@@ -20,6 +22,7 @@ export function Messagerie() {
 
   const [appData, setAppData] = useContext(AppDataContext)
   const [message, setMessage] = useState([])
+  const [socket, setSocket] = useState()
 
   const scrollWarp = useRef(null)
 
@@ -34,7 +37,7 @@ export function Messagerie() {
       time = message[0].date
     }
     for (let index = 0; index < nbMessage; index++) {
-      let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", {method: "POST", headers: appData.headers, body: time })
+      let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { method: "POST", headers: appData.headers, body: time })
 
       let requestJSON = await response.json()
       newMessage.unshift(...requestJSON.reverse())
@@ -46,53 +49,45 @@ export function Messagerie() {
     }
     setMessage((e) => { return [...e, ...newMessage] })
   }
-  async function updateMessage() {
-  let time
-    if (message.length == 0) {
-      console.log("skiped")
-      time = 0
-      return
-    }
-    else {
-      time = message[message.length - 1].date
-    }
-    let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getNew", {method: "POST", headers: appData.headers, body: time })
-    let requestJSON = await response.json()
-    setMessage((e) => { return [...e, ...requestJSON] })
-    if (scrollWarp.current.scrollTop >= scrollWarp.current.scrollHeight -1000 ) {
-        setTimeout(()=>{scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight)},0)
-      }
-  }
 
-
-  
   async function sendMessage(event) {
     if (event.key != 'Enter') {
       return
     }
-
-    await fetch(import.meta.env.VITE_BACKEND_URL + "/message/send", {method: "POST", headers: appData.headers, body: event.target.value })
+    socket.send(event.target.value)
+    //await fetch(import.meta.env.VITE_BACKEND_URL + "/message/send", {method: "POST", headers: appData.headers, body: event.target.value })
     event.target.value = ""
   }
 
-  
+  function connect() {
+    let newSocket = new WebSocket(import.meta.env.VITE_BACKEND_SOCKET + "/chat?jwt=" + appData.jwt)
+
+    newSocket.onmessage = function (event) {
+      setMessage((e) => { return [...e, JSON.parse(event.data)] })
+      if (scrollWarp.current.scrollTop >= scrollWarp.current.scrollHeight - 1000) {
+        setTimeout(() => { scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) }, 0)
+      }
+    }
+    setSocket(newSocket)
+  }
+
+
+
 
   useEffect(() => {
     async function loadMessage() {
       await queryMessage(10)
-      setTimeout(()=>{scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight)},0)
+      setTimeout(() => { scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) }, 0)
     }
 
-    if (true) {
+    if (appData.isLogged) {
       loadMessage()
+      connect()
     }
   }, [appData.isLogged])
-  
-  useEffect(() => {
-    let interval = setInterval(() => { updateMessage() }, 1000 )
-    return () => clearInterval(interval);
-  }, [message])
-   
+
+
+
   return (
     <div className="flex flex-col w-full h-[100vh] ">
       <div ref={scrollWarp} className="flex flex-col w-full overflow-scroll flex-auto">
