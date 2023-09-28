@@ -26,7 +26,7 @@ export function Messagerie() {
 
   const scrollWarp = useRef(null)
 
-  async function queryMessage(nbMessage) {
+  async function queryMessage() {
     let newMessage = []
     let time
     if (message.length == 0) {
@@ -36,17 +36,14 @@ export function Messagerie() {
     else {
       time = message[0].date
     }
-    for (let index = 0; index < nbMessage; index++) {
-      let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { method: "POST", headers: appData.headers, body: time })
 
-      let requestJSON = await response.json()
-      newMessage.unshift(...requestJSON.reverse())
-      if (requestJSON.length != 10) {
-        break
-      }
+    let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { method: "POST", headers: appData.headers, body: time })
 
-      time = requestJSON[9].date
-    }
+    let requestJSON = await response.json()
+    newMessage.unshift(...requestJSON.reverse())
+
+    time = requestJSON[9].date
+
     setMessage((e) => { return [...e, ...newMessage] })
   }
 
@@ -76,7 +73,7 @@ export function Messagerie() {
 
   useEffect(() => {
     async function loadMessage() {
-      await queryMessage(10)
+      await queryMessage()
       setTimeout(() => { scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) }, 0)
     }
 

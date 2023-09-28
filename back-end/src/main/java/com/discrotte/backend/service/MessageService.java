@@ -23,11 +23,11 @@ public class MessageService {
     }
     
     public List<Message> getOldMessage(final Date date) {
-    	return MessageRepository.findFirst10ByDateLessThanOrderByDateDesc(date);   
+    	return MessageRepository.findFirst100ByDateLessThanOrderByDateDesc(date);   
     }
     
     public List<Message> getNewMessage(final Date date) {
-    	return MessageRepository.findFirst10ByDateGreaterThanOrderByDateAsc(date);   
+    	return MessageRepository.findFirst100ByDateGreaterThanOrderByDateAsc(date);   
     }
 
     public Iterable<Message> getMessage() {
