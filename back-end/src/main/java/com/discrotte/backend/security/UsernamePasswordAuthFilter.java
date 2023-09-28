@@ -31,7 +31,6 @@ public class UsernamePasswordAuthFilter extends OncePerRequestFilter {
         if ("/signIn".equals(httpServletRequest.getServletPath())
                 && HttpMethod.POST.matches(httpServletRequest.getMethod())) {
         	
-        	System.out.println(httpServletRequest.getInputStream());
             Login login = MAPPER.readValue(httpServletRequest.getInputStream(), Login.class);
  
             try {

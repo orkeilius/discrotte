@@ -63,6 +63,7 @@ public class UserAuthenticationProvider {
  
     public Authentication validateCredentials(Login login) {
         User user = userService.getUser(login.getUsername()).get();
+        
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
  
