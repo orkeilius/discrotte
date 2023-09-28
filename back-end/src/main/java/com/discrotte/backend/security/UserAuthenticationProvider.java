@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -57,14 +59,24 @@ public class UserAuthenticationProvider {
         DecodedJWT decoded = verifier.verify(token);
  
         User user = userService.getUser(decoded.getIssuer()).get();
+        
  
         return new UsernamePasswordAuthenticationToken(user.getName(), null, Collections.emptyList());
     }
  
     public Authentication validateCredentials(Login login) {
         User user = userService.getUser(login.getUsername()).get();
+        System.out.println(login.getPassword());
+        try {
+			if(user.CheckPassword(login.getPassword())) {
+				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+				
+			}
+		} catch (Exception e) {
+			
+		}
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid Login");
         
-        return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
  
  
