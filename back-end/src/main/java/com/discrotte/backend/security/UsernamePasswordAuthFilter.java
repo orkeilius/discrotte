@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.discrotte.backend.model.User;
 import com.discrotte.backend.model.Login;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;

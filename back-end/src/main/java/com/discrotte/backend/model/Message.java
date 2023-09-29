@@ -15,16 +15,16 @@ import jakarta.persistence.Table;
 @Table(name = "message")
 public class Message {
 
-	
+
 	@Id
 	@GeneratedValue()
 	protected int id;
-	
+
 	@ManyToOne
 	private User author;
-	
+
 	private String text;
-	
+
 	private Date date;
 
 	public Message(User author, String text) {
@@ -34,7 +34,7 @@ public class Message {
 		this.date = new Date(System.currentTimeMillis());
 	}
 	public Message() {}
-	
+
 	public JSONObject getJsonString() {
 		return new JSONObject()
 		.put("text",this.text)

@@ -11,21 +11,21 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "userInfo")
 public class User {
-	
+
 	@Id
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "role", nullable = false)
 	private String role;
-	
+
 	private String token;
-	
-	
-	
+
+
+
 	public String getName() {
 		return name;
 	}
@@ -43,9 +43,9 @@ public class User {
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt()) ;
 		this.role = role;
 	}
-	
+
     public User() {}
-    
+
 	public Boolean CheckPassword(String password) {
 		// placeholder for password validation with salt and security
 		return BCrypt.checkpw(password, this.password);

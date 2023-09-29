@@ -1,31 +1,26 @@
 package com.discrotte.backend;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
+import com.discrotte.backend.model.Message;
 import com.discrotte.backend.model.User;
 import com.discrotte.backend.security.UserAuthenticationProvider;
-import com.discrotte.backend.model.Message;
 import com.discrotte.backend.service.MessageService;
 import com.discrotte.backend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,10 +35,10 @@ public class Controller {
 
 	@Autowired
 	private MessageService messageService;
-	
+
 	@Autowired
 	private Environment env;
-	
+
 	ObjectMapper mapper = new ObjectMapper();
 
 	public Controller(UserService userService, UserAuthenticationProvider userAuthenticationProvider) {
@@ -53,7 +48,7 @@ public class Controller {
 	}
 
 	@PostMapping("/signIn")
-	public ResponseEntity<String> signIn(@AuthenticationPrincipal User user) {		
+	public ResponseEntity<String> signIn(@AuthenticationPrincipal User user) {
 		user.setToken(userAuthenticationProvider.createToken(user.getName()));
 		return ResponseEntity.ok(
 				new JSONObject()
@@ -64,14 +59,14 @@ public class Controller {
 	}
 
 
-	
+
 	public void CreateAdmin() {
 		userService.saveUser(new User("Admin", "lolilol","ADMIN"));
 	}
-	
+
 	@PostMapping("/createUser")
 	public void CreateUser(@RequestBody String requestString) {
-		User author =  (User) userService.getUser(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
+		User author =  userService.getUser(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
 		if(author.getRole() != "ADMIN") {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not Admin");
 		}
