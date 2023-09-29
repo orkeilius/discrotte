@@ -49,11 +49,11 @@ export function Sidebar() {
           <form onSubmit={login} className="flex-column mb-auto text-white text-center">
             <div className="m-4 ">
               <label htmlFor="mail">Nom</label><br />
-              <input className="rounded-lg bg-[#383A40] p-1 " type="text" name="name" />
+              <input className="rounded-lg bg-[#383A40] w-full p-1" type="text" name="name" />
             </div>
             <div className="m-4 ">
               <label htmlFor="mdp">Mot de passe</label>
-              <input className="rounded-lg bg-[#383A40] p-1" name="mdp" type="password" />
+              <input className="rounded-lg bg-[#383A40] w-full p-1" name="mdp" type="password" />
             </div>
             <div className="submit">
               <input
