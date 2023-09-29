@@ -27,24 +27,22 @@ export function Messagerie() {
   const scrollWarp = useRef(null)
 
   async function queryMessage() {
-    let newMessage = []
-    let time
     if (message.length == 0) {
       let now = new Date
-      time = now.getTime()
+      var time = now.getTime()
     }
     else {
-      time = message[0].date
+      var time = message[0].date
     }
 
     let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { method: "POST", headers: appData.headers, body: time })
 
     let requestJSON = await response.json()
-    newMessage.unshift(...requestJSON.reverse())
+    requestJSON = requestJSON.reverse()
+    console.log(requestJSON)
 
-    time = requestJSON[9].date
 
-    setMessage((e) => { return [...e, ...newMessage] })
+    setMessage((e) => { return [...e, ...requestJSON] })
   }
 
   async function sendMessage(event) {
@@ -77,10 +75,16 @@ export function Messagerie() {
       setTimeout(() => { scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) }, 0)
     }
 
+    // close old websocket
+    if(socket !== undefined) {
+      socket.close()
+    }
+
     if (appData.isLogged) {
       loadMessage()
       connect()
     }
+    
   }, [appData.isLogged])
 
 
@@ -94,7 +98,7 @@ export function Messagerie() {
             {message.map(elem => {
               return (
 
-                <Message key={elem.data} text={elem.text} author={elem.author} time={elem.date} />
+                <Message key={elem.date} text={elem.text} author={elem.author} time={elem.date} />
               )
             })}
           </div>
