@@ -27,12 +27,14 @@ export function Messagerie() {
   const scrollWarp = useRef(null)
 
   async function queryMessage() {
+    var oldSize =scrollWarp.current.scrollHeight 
+    var time
     if (message.length == 0) {
       let now = new Date
-      var time = now.getTime()
+      time = now.getTime()
     }
     else {
-      var time = message[0].date
+      time = message[0].date - 1
     }
 
     let response = await fetch(import.meta.env.VITE_BACKEND_URL + "/message/getOld", { method: "POST", headers: appData.headers, body: time })
@@ -41,12 +43,12 @@ export function Messagerie() {
     requestJSON = requestJSON.reverse()
     console.log(requestJSON)
 
-
-    setMessage((e) => { return [...e, ...requestJSON] })
+    setMessage((e) => { return [ ...requestJSON, ...e,] })
+    setTimeout(() => { scrollWarp.current.scrollTo(0 , scrollWarp.current.scrollTop+(scrollWarp.current.scrollHeight - oldSize)) }, 0)
   }
 
   async function sendMessage(event) {
-    if (event.key != 'Enter') {
+    if (event.key != 'Enter' || event.target.value == "" ) {
       return
     }
     socket.send(event.target.value)
@@ -60,7 +62,7 @@ export function Messagerie() {
     newSocket.onmessage = function (event) {
       setMessage((e) => { return [...e, JSON.parse(event.data)] })
       if (scrollWarp.current.scrollTop >= scrollWarp.current.scrollHeight - 1000) {
-        setTimeout(() => { scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) }, 0)
+         scrollWarp.current.scrollTo(0, scrollWarp.current.scrollHeight) 
       }
     }
     setSocket(newSocket)
@@ -88,10 +90,24 @@ export function Messagerie() {
   }, [appData.isLogged])
 
 
+  var disable= false
+  var scrollUpdate = e => {
+    if (disable|| e.target.scrollTop == 0) {
+      return
+    }
+    if (e.target.scrollTop < 500 ) {
+      disable =true
+      queryMessage()
+
+    
+    }
+  }
+
+
 
   return (
     <div className="flex flex-col w-full h-[100vh] ">
-      <div ref={scrollWarp} className="flex flex-col w-full overflow-scroll flex-auto">
+      <div ref={scrollWarp} onScroll={scrollUpdate} className="flex flex-col w-full overflow-scroll flex-auto">
         <img src={Discrotte} className="w-52 mx-auto opacity-20 mb-12" />
         {appData.isLogged ? (
           <div className="mt-auto flex flex-col justify-center ">
@@ -106,7 +122,7 @@ export function Messagerie() {
         ) : (
           <div className="m-auto">
 
-            <p className="text-white text-center text-3xl">connecter vous</p>
+            <p className="text-white text-center text-3xl">connectez vous</p>
           </div>
         )}
 
