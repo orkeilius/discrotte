@@ -65,9 +65,8 @@ public class UserAuthenticationProvider {
     }
  
     public Authentication validateCredentials(Login login) {
-        User user = userService.getUser(login.getUsername()).get();
-        System.out.println(login.getPassword());
         try {
+        	User user = userService.getUser(login.getUsername()).get();
 			if(user.CheckPassword(login.getPassword())) {
 				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
 				

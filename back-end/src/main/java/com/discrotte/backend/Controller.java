@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import com.discrotte.backend.model.User;
 import com.discrotte.backend.security.UserAuthenticationProvider;
@@ -36,43 +40,47 @@ public class Controller {
 
 	@Autowired
 	private MessageService messageService;
-
+	
+	@Autowired
+	private Environment env;
+	
 	ObjectMapper mapper = new ObjectMapper();
 
 	public Controller(UserService userService, UserAuthenticationProvider userAuthenticationProvider) {
 		this.userService = userService;
 		this.userAuthenticationProvider = userAuthenticationProvider;
+		CreateAdmin();
 	}
 
 	@PostMapping("/signIn")
-	public ResponseEntity<String> signIn(@AuthenticationPrincipal User user) {
+	public ResponseEntity<String> signIn(@AuthenticationPrincipal User user) {		
 		user.setToken(userAuthenticationProvider.createToken(user.getName()));
-		return ResponseEntity.ok(new JSONObject().put("token", user.getToken()).toString());
+		return ResponseEntity.ok(
+				new JSONObject()
+				.put("token", user.getToken())
+				.put("role", user.getRole())
+				.toString()
+				);
 	}
 
-	@PostMapping("/getUser")
-	public HashMap<String, String> getUser(@RequestBody String username) {
-		Optional<User> request = userService.getUser(username);
-		if (request.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown user");
-		}
-		HashMap<String, String> user = new HashMap<>();
 
-		user.put("name", request.get().getName());
-		user.put("role", "USER");
-
-		return user;
+	
+	public void CreateAdmin() {
+		userService.saveUser(new User("Admin", "lolilol","ADMIN"));
 	}
-
+	
 	@PostMapping("/createUser")
-	public void CreateUser(@RequestParam String name, @RequestParam String password) {
-		userService.saveUser(new User(name, password));
+	public void CreateUser(@RequestBody String requestString) {
+		User author =  (User) userService.getUser(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).get();
+		if(author.getRole() != "ADMIN") {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not Admin");
+		}
+		JSONObject request = new JSONObject(requestString);
+
+		userService.saveUser(new User((String) request.get("newUser"),(String) request.get("newPassword"),"USER"));
 	}
 
-	@PostMapping("/login")
-	public Void Login() {
-		return null;
-	}
+
 
 	@PostMapping("/message/send")
 	public void sendMessage(@RequestBody String text) {
@@ -107,5 +115,4 @@ public class Controller {
 		}
 		return out.toString();
 	}
-
 }
